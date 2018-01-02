@@ -1,3 +1,12 @@
 FROM lucidfrontier45/miniconda:xenial-cuda-base
 
-RUN conda install -y pytorch=0.3 torchvision cuda90 -c pytorch
+ENV PYTORCH_VERSION 0.3
+
+RUN set -ex \
+    && pkgs=" \
+        pytorch=${PYTORCH_VERSION} \
+        torchvision \
+        cuda90 \
+    " \
+    && conda install -y ${pkgs} -c pytorch \
+    && conda clean -i -l -t -y
